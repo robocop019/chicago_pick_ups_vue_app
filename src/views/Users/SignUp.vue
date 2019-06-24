@@ -26,7 +26,7 @@
           <label>Password confirmation:</label>
           <input type="password" class="form-control" v-model="passwordConfirmation">
         </div>
-        <input type="submit" class="butoon" value="Submit">
+        <input type="submit" class="button" value="Submit">
       </form>
     </div>
   </div>
@@ -67,6 +67,7 @@
               axios.defaults.headers.common["Authorization"] =
                 "Bearer " + response.data.jwt;
               localStorage.setItem("jwt", response.data.jwt);
+              localStorage.setItem("user_id", response.data.user_id);
               this.user_id = response.data.user_id;
               this.$router.push("/users/" + this.user_id);
             });
