@@ -1,7 +1,7 @@
 <template>
   <div class="parks-index">
     <div v-for="park in parks">
-      <h1> {{park.name}} </h1>
+      <router-link v-bind:to="'/parks/' + park.id"> <h1> {{park.name}} </h1> </router-link>
       <h3> {{park.location}} </h3>
     </div>
   </div>
