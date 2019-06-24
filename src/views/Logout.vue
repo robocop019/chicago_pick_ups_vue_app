@@ -1,18 +1,16 @@
 <template>
   <div class="logout">
-    
   </div>
 </template>
 
-<style>
-</style>
-
 <script>
-export default {
-  data: function() {
-    return {};
-  },
-  created: function() {},
-  methods: {}
-};
+  import axios from "axios";
+  
+  export default {
+    created: function() {
+      delete axios.defaults.headers.common["Authorization"];
+      localStorage.removeItem("jwt");
+      this.$router.push("/");
+    }
+  };
 </script>

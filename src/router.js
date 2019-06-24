@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Index from './views/Index.vue'
 
+import GamesIndex from './views/GamesIndex.vue'
 import GamesShow from './views/GamesShow.vue'
 
 import UsersShow from './views/UsersShow.vue'
@@ -10,6 +11,7 @@ import UsersShow from './views/UsersShow.vue'
 import ParksIndex from './views/ParksIndex.vue'
 import ParksShow from './views/ParksShow.vue'
 
+import SignUp from './views/SignUp.vue'
 import Login from './views/Login.vue'
 import Logout from './views/Logout.vue'
 
@@ -21,10 +23,16 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     { path: '/', name: 'home', component: Index },
+    
+    { path: '/games', name: 'games-index', component: GamesIndex },
     { path: '/games/:id', name: 'games-show', component: GamesShow },
+
     { path: '/users/:id', name: 'users-show', component: UsersShow },
+
     { path: '/parks', name: 'parks-index', component: ParksIndex },
     { path: '/parks/:id', name: 'parks-show', component: ParksShow },
+
+    { path: '/signup', name: 'signup', component: SignUp },
     { path: '/login', name: 'login', component: Login },
     { path: '/logout', name: 'logout', component: Logout }
   ]

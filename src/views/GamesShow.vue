@@ -2,6 +2,7 @@
   <div class="games-show">
     <h2> {{game.title}} </h2>
     <router-link v-bind:to="'/users/' + game.organizer.id"> <h3> {{game.organizer.first_name}} {{game.organizer.last_name}}</h3> </router-link>
+    <router-link v-bind:to="'/parks/' + game.park.id"> <h2> {{game.park.name}} </h2> </router-link>
     <h5> {{game.description}} </h5>
     <h6> {{game.category}} </h6>
 
@@ -10,7 +11,6 @@
       <p> Comment: {{comment.content}} </p>
     </div>
 
-    <router-link v-bind:to="'/parks/' + game.park.id"> <h2> {{game.park.name}} </h2> </router-link>
   </div>
 </template>
 
