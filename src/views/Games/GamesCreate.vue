@@ -86,12 +86,15 @@
                       min_participants: this.minParticipants,
                       max_participants: this.maxParticipants,
                       max_age: this.maxAge,
-                      user_id: this.userId
+                      organizer_id: this.userId
         };
+
+        console.log(this.userId);
+        console.log(params);
 
         axios.post('/api/games', params).then(response => {
           console.log(response.data);
-          // this.$router.push('/games/' + response.data.id);
+          this.$router.push('/games/' + response.data.id);
         })
         .catch(error => {
             this.errors = response.data.errors;
