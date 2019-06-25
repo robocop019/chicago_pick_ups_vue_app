@@ -15,17 +15,19 @@
         <br>
         <input type="radio" name="casual" v-model="category" value=0>Casual
         <input type="radio" name="competitive" v-model="category" value=1>Competitive
+        <input type="radio" name="practice" v-model="category" value=2>Practice
         <br>
         <br>
         <input type="submit" class="button" value="Submit">
       </form>
     </div>
     <div v-for="game in games">
-      <router-link v-bind:to="'/games/' + game.id"> <h2> {{game.title}} </h2> </router-link>
-      <router-link v-bind:to="'/parks/' + game.park.id"> <h3> {{game.park.name}} </h3> </router-link>
-      <h5> {{game.sport}} </h5>
-      <h5> {{game.description}} </h5>
-      <h6> {{game.category}} </h6>
+      <router-link v-bind:to="'/games/' + game.id"> <h3> {{game.title}} </h3> </router-link>
+      <router-link v-bind:to="'/parks/' + game.park.id"> <p>Location: {{game.park.name}} </p> </router-link>
+      <p> {{game.start_time}} </p>
+      <p>Sport: {{game.sport}} </p>
+      <p>Description: {{game.description}} </p>
+      <p>Category: {{game.category}} </p>
     </div>
   </div>
 </template>

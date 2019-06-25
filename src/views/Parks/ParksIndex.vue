@@ -4,9 +4,9 @@
       Search for a Park: <input v-model="nameFilter">
     </div>
 
-    <div v-for="park in parks">
-      <router-link v-bind:to="'/parks/' + park.id"> <h1> {{park.name}} </h1> </router-link>
-      <h3> {{park.location}} </h3>
+    <div v-for="park in filterBy(parks, nameFilter, 'name')">
+      <router-link v-bind:to="'/parks/' + park.id"> <p> {{park.name}} Park</p> </router-link>
+      <p>Location: {{park.location}} </p>
     </div>
   </div>
 </template>

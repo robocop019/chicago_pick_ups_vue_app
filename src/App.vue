@@ -5,8 +5,15 @@
       <router-link to="/games">Games</router-link> |
       <router-link to="/games/create">Create Game</router-link> |
       <router-link to="/parks">Parks</router-link> |
-      <router-link to="/signup">Sign Up</router-link> |
-      <router-link to="/login">Login</router-link> |
+
+      <div class="navbar" v-if="this.jwt === null">
+        <router-link to="/signup">Sign Up</router-link> 
+        |
+      </div>
+      <div class="navbar" v-if="this.jwt === null">
+        <router-link to="/login">Login</router-link> 
+        | 
+      </div>
       <router-link to="/logout">Logout</router-link>
     </div>
     <router-view/>
@@ -33,4 +40,21 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.navbar {
+  display: inline-block;
+}
 </style>
+
+<script>
+  export default {
+    data: function() {
+      return {
+        jwt: ''
+      };
+    },
+    created: function() {
+      this.jwt = localStorage.getItem("jwt");
+    }
+  };
+</script>

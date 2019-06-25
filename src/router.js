@@ -7,7 +7,7 @@ import GamesIndex from './views/Games/GamesIndex.vue'
 import GamesCreate from './views/Games/GamesCreate.vue'
 import GamesShow from './views/Games/GamesShow.vue'
 
-
+import UsersEdit from './views/Users/UsersEdit.vue'
 import UsersShow from './views/Users/UsersShow.vue'
 
 import SignUp from './views/Users/SignUp.vue'
@@ -31,6 +31,7 @@ export default new Router({
     { path: '/games/create', name: 'games-create', component: GamesCreate },
     { path: '/games/:id', name: 'games-show', component: GamesShow },
 
+    { path: '/users/edit', name: 'users-edit', component: UsersEdit },
     { path: '/users/:id', name: 'users-show', component: UsersShow },
 
     { path: '/signup', name: 'signup', component: SignUp },
