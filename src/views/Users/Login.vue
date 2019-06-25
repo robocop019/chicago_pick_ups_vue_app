@@ -33,7 +33,11 @@
         errors: []
       };
     },
-    created: function() {},
+    created: function() {
+      if (localStorage.getItem("jwt")) {
+        this.$router.push('/users/' + localStorage.getItem("user_id"));
+      }
+    },
     methods: {
       submit: function() {
         var params = {

@@ -26,13 +26,25 @@
   export default {
     data: function() {
       return {
-        park: []
+        park: {},
+        sports: []
       };
     },
     created: function() {
       axios.get('/api/parks/' + this.$route.params.id).then(response => {
         this.park = response.data;
+
+        console.log(this.park);
+
+        axios.get('https://data.cityofchicago.org/resource/eix4-gf83.json?park_no=' + this.park.api_ref).then(response => {
+
+          this.sports = response.data;
+          console.log(this.sports);
+        });
+
       });
+
+      console.log(park)
     },
     methods: {}
   };

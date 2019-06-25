@@ -5,42 +5,58 @@
         <ul>
           <li v-for="error in errors">{{ error }}</li>
         </ul>
-        <div class="form-group">
+        <div>
           <label>Title:</label> 
-          <input type="text" class="form-control" v-model="title">
-        </div>
-        <div class="form-group">
+          <input type="text" v-model="title">
+          <br>
+
           <label>Description:</label>
-          <input type="text" class="form-control" v-model="description">
-        </div>
-        <div class="form-group">
-          <label>Park Id:</label>
-          <input type="text" class="form-control" v-model="parkId">
-        </div>
-        <div class="form-group">
+          <input type="text" v-model="description">
+          <br>
+
+          <label>Park:</label>
+          <select name="parks" v-model="parkId">
+            <option v-for="park in parks" v-bind:value="park.id"> {{park.name}} </option>
+          </select>
+          <br>
+
           <label>Start Time:</label>
-          <input type="text" class="form-control" v-model="startTime">
-        </div>
-        <div class="form-group">
+          <input type="datetime-local" v-model="startTime">
+          <br>
+
           <label>Sport:</label>
-          <input type="text" class="form-control" v-model="sport">
-        </div>
-        <div class="form-group">
+          <select name="sport" v-model="sport">
+            <option value="baseball">Baseball</option>
+            <option value="basketball">Basketball</option>
+            <option value="football">Football</option>
+            <option value="hockey">Hockey</option>
+            <option value="soccer">Soccer</option>
+            <option value="softball">Softball</option>
+            <option value="tennis">Tennis</option>
+            <option value="volleyball">Volleyball</option>
+          </select>
+          <br>
+
           <label>Category:</label>
-          <input type="text" class="form-control" v-model="category">
-        </div>
-        <div class="form-group">
+          <select name="category" v-model="category">
+            <option value=""></option>
+            <option value="casual">Casual</option>
+            <option value="competitive">Competitive</option>
+          </select>
+          <br>
+
           <label>Minimum Participants:</label>
-          <input type="text" class="form-control" v-model="minParticipants">
-        </div>
-        <div class="form-group">
+          <input type="text" v-model="minParticipants">
+          <br>
+
           <label>Maximum Participants:</label>
-          <input type="text" class="form-control" v-model="maxParticipants">
-        </div>
-        <div class="form-group">
+          <input type="text" v-model="maxParticipants">
+          <br>
+
           <label>Maximum Age:</label>
-          <input type="text" class="form-control" v-model="maxAge">
+          <input type="text" v-model="maxAge">
         </div>
+        
         <input type="submit" class="button" value="Submit">
     </form>
   </div>
@@ -55,6 +71,7 @@
   export default {
     data: function() {
       return {
+        parks: [],
         title: "",
         description: "",
         parkId: "",
@@ -73,6 +90,12 @@
         //pop up you need to be logged in to create a game
         this.$router.push('/login');
       }
+
+      axios.get('/api/parks').then(response => {
+        this.parks = response.data;
+        console.log(this.parks);
+      });
+
     },
     methods: {
       submit: function() {
