@@ -2,16 +2,21 @@
   <div class="games-index">
     <div class="filter">
       <form v-on:submit.prevent="submit()">
-        <select v-model="sport">
-          <option value="0">Baseball</option>
-          <option value="1">Basketball</option>
-          <option value="2">Football</option>
-          <option value="3">Hockey</option>
-          <option value="4">Soccer</option>
-          <option value="5">Softball</option>
-          <option value="6">Tennis</option>
-          <option value="7">Volley</option>
-        </select>
+        
+        <input type="checkbox" name="Baseball" v-model="sports" value=0>Baseball
+        <input type="checkbox" name="basketball" v-model="sports" value=1>Basketball
+        <input type="checkbox" name="football" v-model="sports" value=2>Football
+        <input type="checkbox" name="hockey" v-model="sports" value=3>Hockey
+        <input type="checkbox" name="soccer" v-model="sports" value=4>Soccer
+        <input type="checkbox" name="softball" v-model="sports" value=5>Softball
+        <input type="checkbox" name="tennis" v-model="sports" value=6>Tennis
+        <input type="checkbox" name="volleyball" v-model="sports" value=7>Volleyball
+        <br>
+        <br>
+        <input type="radio" name="casual" v-model="category" value=0>Casual
+        <input type="radio" name="competitive" v-model="category" value=1>Competitive
+        <br>
+        <br>
         <input type="submit" class="button" value="Submit">
       </form>
     </div>
@@ -34,7 +39,8 @@
     data: function() {
       return {
         games: [],
-        sport: null,
+        sports: [],
+        category: '',
         park: ""
       };
     },
@@ -45,11 +51,20 @@
     },
     methods: {
       submit: function() {
-        var sport = this.sport;
 
-        axios.get('/api/games?sport=' + sport).then(response => {
-          console.log(response.data);
-        });
+        if (this.sports[0]) {
+          // var sport = this.sports[0];
+
+          axios.get('/api/games?sport=' + this.sports[0]).then(response => {
+            console.log(response.data);
+          });
+        }
+
+        if (this.category) {
+          axios.get('/api/games?category=' + this.category).then(response => {
+            console.log(response.data);
+          });
+        }
       }
     }
   };
