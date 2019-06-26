@@ -1,8 +1,8 @@
 <template>
   <div class="games-index">
     <div class="filter">
+      <h3>Filters</h3>
       <form v-on:submit.prevent="submit()">
-        
         <input type="checkbox" name="Baseball" v-model="sports" value=0>Baseball
         <input type="checkbox" name="basketball" v-model="sports" value=1>Basketball
         <input type="checkbox" name="football" v-model="sports" value=2>Football
@@ -24,7 +24,7 @@
     <div v-for="game in games">
       <router-link v-bind:to="'/games/' + game.id"> <h3> {{game.title}} </h3> </router-link>
       <router-link v-bind:to="'/parks/' + game.park.id"> <p>Location: {{game.park.name}} </p> </router-link>
-      <p> {{game.start_time}} </p>
+      <p>Start Time: {{game.start_time}} </p>
       <p>Sport: {{game.sport}} </p>
       <p>Description: {{game.description}} </p>
       <p>Category: {{game.category}} </p>
@@ -60,6 +60,7 @@
 
           axios.get('/api/games?sport=' + this.sports[0]).then(response => {
             console.log(response.data);
+            this.games = response.data;
           });
         }
 

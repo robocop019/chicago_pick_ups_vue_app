@@ -5,7 +5,7 @@
     </div>
 
     <div v-for="park in filterBy(parks, nameFilter, 'name')">
-      <router-link v-bind:to="'/parks/' + park.id"> <p> {{park.name}} Park</p> </router-link>
+      <router-link v-bind:to="'/parks/' + park.id"> <p> {{park.name}} </p> </router-link>
       <p>Location: {{park.location}} </p>
     </div>
   </div>

@@ -16,7 +16,7 @@
 
           <label>Park:</label>
           <select name="parks" v-model="parkId">
-            <option v-for="park in parks" v-bind:value="park.id"> {{park.name}} </option>
+            <option v-for="park in parks" v-bind:value="park.id"> {{park.name}} Park</option>
           </select>
           <br>
 

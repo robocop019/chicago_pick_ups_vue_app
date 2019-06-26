@@ -3,11 +3,11 @@
     <h2> {{game.title}} </h2>
 
     <div>
-      <button>Attending</button>
+      <button v-on:click="interestedIn(1)">Attending</button>
     </div>
 
     <div>
-      <button>Interested In</button>
+      <button v-on:click="interestedIn(0)">Interested In</button>
     </div>
 
     <h4> {{game.start_time}} </h4>
@@ -16,6 +16,11 @@
     <router-link v-bind:to="'/parks/' + game.park.id"> <p> {{game.park.name}} </p> </router-link>
     <p>Category: {{game.category}} || Sport: {{game.sport}} </p>
     <p>Description: {{game.description}} </p>
+
+    <h2>Interested In</h2>
+    <div v-for="interest in interests">
+      <p> {{interest.user_id}} is {{interest.status}} </p>
+    </div>
 
     <h2>Comments</h2>
     <div v-for="comment in game.comments">
@@ -34,14 +39,31 @@
   export default {
     data: function() {
       return {
-        game: []
+        game: [],
+        interests: []
       };
     },
     created: function() {
       axios.get('/api/games/' + this.$route.params.id).then(response => {
         this.game = response.data;
       });
+
+      axios.get('/api/interests?game_id=' + this.$route.params.id).then(response => {
+        this.interests = response.data;
+      });
     },
-    methods: {}
+    methods: {
+      interestedIn: function(status) {
+        var params = {
+                      user_id: localStorage.getItem("user_id"),
+                      game_id: this.$route.params.id,
+                      status: status
+        };
+
+        axios.post('/api/interests', params).then(response => {
+          this.interests.push(response.data);
+        });
+      }
+    }
   };
 </script>

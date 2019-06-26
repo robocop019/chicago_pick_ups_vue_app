@@ -8,7 +8,7 @@
       <button>Edit Profile</button>
     </div>
     <div>
-      <button>Follow</button>
+      <button v-on:click="follow(user.id)">Follow</button>
     </div>
 
     <div>
@@ -16,11 +16,23 @@
     </div>
 
     <p>Location: {{user.location}} </p>
-    <p> {{user.bio}} </p>
+    <p>Bio: {{user.bio}} </p>
 
     <h3>Posts</h3>
     <div v-for="game in games">
       <router-link v-bind:to="'/games/' + game.id"> <p>Post: {{game.title}} </p> </router-link>
+    </div>
+
+    <h3>Interested In</h3>
+    <div v-for="interest in interests">
+      <!-- <router-link v-bind:to="'/games/' + game.id"> <p>Post: {{game.title}} </p> </router-link> -->
+      <p> {{interest.status}} {{interest.game_id}} </p>
+    </div>
+
+    <h3>Following</h3>
+    <div v-for="follow in following">
+      <!-- <router-link v-bind:to="'/games/' + game.id"> <p>Post: {{game.title}} </p> </router-link> -->
+      <router-link v-bind:to="'/users/' + follow.friendee_id"> <p> {{follow.friendee_id}} </p> </router-link>
     </div>
 
     <h3>Comments</h3>
@@ -49,9 +61,11 @@
   export default {
     data: function() {
       return {
-        user: [],
+        user: {},
         games: [],
-        comments: []
+        interests: [],
+        comments: [],
+        following: []
       };
     },
     created: function() {
@@ -60,16 +74,37 @@
         this.user = response.data;
         console.log(this.user);
 
-        axios.get('/api/games?organizer_id=' + this.$route.params.id).then(response => {
-          this.games = response.data;
-        });
+      });
 
-        axios.get('/api/comments?user_id=' + this.$route.params.id).then(response => {
-          this.comments = response.data;
-        });
+      axios.get('/api/games?organizer_id=' + this.$route.params.id).then(response => {
+        this.games = response.data;
+      });
 
+      axios.get('/api/interests?user_id=' + this.$route.params.id).then(response => {
+        this.interests = response.data;
+      });
+
+      axios.get('/api/comments?user_id=' + this.$route.params.id).then(response => {
+        this.comments = response.data;
+      });
+
+      axios.get('/api/friendships?user_id=' + this.$route.params.id).then(response => {
+        this.following = response.data;
+        console.log(this.following);
       });
     },
-    methods: {}
+    methods: {
+      follow: function(friendee_id) {
+        var params = {
+                      friendee_id: friendee_id,
+                      friender_id: localStorage.getItem("user_id")
+        };
+
+        axios.post('/api/friendships', params).then(response => {
+          this.following.push(response.data);
+          console.log(this.following);
+        });
+      }
+    }
   };
 </script>

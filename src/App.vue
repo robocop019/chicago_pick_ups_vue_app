@@ -5,15 +5,9 @@
       <router-link to="/games">Games</router-link> |
       <router-link to="/games/create">Create Game</router-link> |
       <router-link to="/parks">Parks</router-link> |
-
-      <div class="navbar" v-if="this.jwt === null">
-        <router-link to="/signup">Sign Up</router-link> 
-        |
-      </div>
-      <div class="navbar" v-if="this.jwt === null">
-        <router-link to="/login">Login</router-link> 
-        | 
-      </div>
+      <router-link v-bind:to="'/users/' + this.user_id">Profile</router-link> |
+      <router-link to="/signup">Sign Up</router-link> |
+      <router-link to="/login">Login</router-link> | 
       <router-link to="/logout">Logout</router-link>
     </div>
     <router-view/>
@@ -50,11 +44,13 @@
   export default {
     data: function() {
       return {
-        jwt: ''
+        jwt: '',
+        user_id: ''
       };
     },
     created: function() {
       this.jwt = localStorage.getItem("jwt");
+      this.user_id = localStorage.getItem("user_id");
     }
   };
 </script>
