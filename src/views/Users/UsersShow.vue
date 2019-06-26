@@ -29,10 +29,16 @@
       <p> {{interest.status}} {{interest.game_id}} </p>
     </div>
 
-    <h3>Following</h3>
-    <div v-for="follow in following">
+    <h3>Followers</h3>
+    <div v-for="followee in followers">
       <!-- <router-link v-bind:to="'/games/' + game.id"> <p>Post: {{game.title}} </p> </router-link> -->
-      <router-link v-bind:to="'/users/' + follow.friendee_id"> <p> {{follow.friendee_id}} </p> </router-link>
+      <router-link v-bind:to="'/users/' + followee.friender_id"> <p> {{followee.friender_id}} </p> </router-link>
+    </div>
+
+    <h3>Following</h3>
+    <div v-for="follower in following">
+      <!-- <router-link v-bind:to="'/games/' + game.id"> <p>Post: {{game.title}} </p> </router-link> -->
+      <router-link v-bind:to="'/users/' + follower.friendee_id"> <p> {{follower.friendee_id}} </p> </router-link>
     </div>
 
     <h3>Comments</h3>
@@ -65,6 +71,7 @@
         games: [],
         interests: [],
         comments: [],
+        followers: [],
         following: []
       };
     },
@@ -88,7 +95,12 @@
         this.comments = response.data;
       });
 
-      axios.get('/api/friendships?user_id=' + this.$route.params.id).then(response => {
+      axios.get('/api/friendships?friendee_id=' + this.$route.params.id).then(response => {
+        this.followers = response.data;
+        console.log(this.followers);
+      });
+
+      axios.get('/api/friendships?friender_id=' + this.$route.params.id).then(response => {
         this.following = response.data;
         console.log(this.following);
       });
@@ -101,8 +113,8 @@
         };
 
         axios.post('/api/friendships', params).then(response => {
-          this.following.push(response.data);
-          console.log(this.following);
+          this.followers.push(response.data)
+          console.log(this.followers);
         });
       }
     }

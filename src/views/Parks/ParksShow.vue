@@ -39,25 +39,28 @@
       axios.get('/api/parks/' + this.$route.params.id).then(response => {
         this.park = response.data;
 
-        console.log(process.env.VUE_APP_X_APP_TOKEN);
+        axios.get('https://data.cityofchicago.org/resource/eix4-gf83.json?park_no=' + this.park.api_ref).then(response => {
 
-        // axios
-        // .get('https://data.cityofchicago.org/resource/eix4-gf83.json?$$app_token=' + process.env.VUE_APP_X_APP_TOKEN + '&park_no=' + this.park.api_ref)
-        // .then(response => {
-        //     console.log(response.data);
-        //     this.facilities = response.data;
-        //     console.log(this.facilities);
-        // });
-
-        axios
-        .get('https://data.cityofchicago.org/resource/eix4-gf83.json?park_no=' + this.park.api_ref, 
-          {headers: {
-            'Accept': 'application/json',
-            'X-App-Token': process.env.VUE_APP_X_APP_TOKEN
-          }}).then(response => {
             console.log(response.data);
-            this.facilities = response.data;
+            
+            var new_fac = [];
+
+            response.data.forEach(function(facility) {
+
+              if (!(new_fac.includes(facility.facility_t + ' ' + facility.facility_n))) {
+              
+                if (facility.facility_t === 'SPECIAL') {
+                  new_fac.push(facility.facility_n);
+                } else {
+                  new_fac.push(facility.facility_t + ' ' + facility.facility_n);
+                }
+              }
+
+            });
+
+            this.facilities = new_fac;
             console.log(this.facilities);
+            
         });
 
       });

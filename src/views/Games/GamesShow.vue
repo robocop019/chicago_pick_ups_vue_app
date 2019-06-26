@@ -61,7 +61,11 @@
         };
 
         axios.post('/api/interests', params).then(response => {
-          this.interests.push(response.data);
+          console.log(response.data);
+        });
+
+        axios.get('/api/interests?game_id=' + this.$route.params.id).then(response => {
+          this.interests = response.data;
         });
       }
     }
