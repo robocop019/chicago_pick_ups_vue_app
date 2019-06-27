@@ -19,7 +19,7 @@
 
     <h2>Interested In</h2>
     <div v-for="interest in interests">
-      <p> {{interest.user_id}} is {{interest.status}} </p>
+      <p> <router-link v-bind:to="'/users/' + interest.user_id"> {{interest.first_name}} {{interest.last_name}} </router-link> is {{interest.status}} </p>
     </div>
 
     <h2>Comments</h2>

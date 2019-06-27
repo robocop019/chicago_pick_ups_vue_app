@@ -11,10 +11,10 @@
     <h2>Comments</h2>
     <div>
       <form v-on:submit.prevent="submit()">
-        <input type="text" placeholder="Add Comment" v-model="newComment">
+        Comment: <input type="text" placeholder="Add Comment" v-model="newComment">
         <br>
         <br>
-        <input type="number" min="0" max="5" v-model="newRating">
+        Rating(Max of 5): <input type="number" min="0" max="5" v-model="newRating">
         <br>
         <br>
         <input type="submit" value="Post Comment">

@@ -70,6 +70,9 @@
             this.games = response.data;
           });
         }
+
+        this.sports = [];
+        this.category = '';
       }
     }
   };

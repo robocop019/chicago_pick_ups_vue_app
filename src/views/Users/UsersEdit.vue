@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="users-edit">
     <form v-on:submit.prevent="submit()">
       <h1>Edit Profile</h1>
@@ -6,52 +6,37 @@
         <li v-for="error in errors">{{ error }}</li>
       </ul>
 
-      <div class="form-group">
+      <div>
         <label>First Name:</label> 
-        <input type="text" class="form-control" v-bind:value="user.first_name" v-model="newFirstName">
-      </div>
-
-      <div class="form-group">
+        <input type="text"  v-model="user.first_name">
+        <br>
+        <br>          
         <label>Last Name:</label> 
-        <input type="text" class="form-control" v-bind:value="user.last_name" v-model="newLastName">
-      </div>
-
-      <div class="form-group">
+        <input type="text" v-model="user.last_name">
+        <br>
+        <br>  
         <label>Email:</label>
-        <input type="email" class="form-control" v-bind:value="user.email" v-model="newEmail">
-      </div>
-
-      <div class="form-group">
-        <label>New Password:</label>
-        <input type="password" class="form-control" v-bind:value="user.password" v-model="newPassword">
-      </div>
-
-      <div class="form-group">
-        <label>Confirm New Password:</label>
-        <input type="password" class="form-control" v-bind:value="user.password" v-model="newPasswordConfirmation">
-      </div>
-      
-      <div class="form-group">
+        <input type="email" v-model="user.email">
+        <br>
+        <br>     
         <label>Phone Number:</label>
-        <input type="text" class="form-control" v-bind:value="user.phoneNumber" v-model="newPhoneNumber">
-      </div>
-
-      <div class="form-group">
+        <input type="text" v-model="user.phone_number">
+        <br>
+        <br>
         <label>Avatar Url:</label>
-        <input type="text" class="form-control" v-bind:value="user.avatarUrl" v-model="newAvatarUrl">
-      </div>
-
-      <div class="form-group">
+        <input type="text" v-model="user.avatar_url">
+        <br>
+        <br>
         <label>Bio:</label>
-        <input type="text" class="form-control" v-bind:value="user.bio" v-model="newBio">
-      </div>
-
-      <div class="form-group">
+        <input type="text" v-model="user.bio">
+        <br>
+        <br>
         <label>Location:</label>
-        <input type="text" class="form-control" v-bind:value="user.location" v-model="newLocation">
+        <input type="text" v-model="user.location">
+        <br>
+        <br>
+        <input type="submit" value="Update Profile">
       </div>
-
-      <input type="submit" class="button" value="Submit">
     </form>
   </div>
 </template>
@@ -66,14 +51,6 @@
     data: function() {
       return {
         user: {},
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        bio: "",
-        location: "",
-        password: "",
-        passwordConfirmation: "",
         errors: []
       };
     },
@@ -82,7 +59,27 @@
         this.user = response.data;
       });
     },
-    methods: {}
+    methods: {
+      submit: function() {
+
+        var params = {
+                      first_name: this.user.first_name,
+                      last_name: this.user.last_name,
+                      email: this.user.email,
+                      phone_number: this.user.phone_number,
+                      bio: this.user.bio,
+                      avatar_url: this.user.avatar_url,
+                      location: this.user.location
+        };
+
+        axios.patch('/api/users/' + localStorage.getItem("user_id"), params)
+          .then(response => {
+            this.$router.push('/users/' + localStorage.getItem("user_id"));
+          })
+          .catch(error => {
+            this.errors = error.response.data.errors;
+          });
+      }
+    }
   };
 </script>
- -->

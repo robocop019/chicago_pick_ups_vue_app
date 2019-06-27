@@ -1,11 +1,10 @@
 <template>
   <div class="users-show">
-    <img v-bind:src="user.avatar_url" v-bind:alt="user.avatar_url">
+    <img v-bind:src="user.avatar_url" v-bind:alt="user.first_name">
     <h1> {{user.first_name}} {{user.last_name}} </h1>
 
-    <!-- <div v-if='user.id === (localStorage.getItem("user_id"))'> -->
     <div>
-      <button>Edit Profile</button>
+      <router-link v-bind:to="'/users/edit/' + user.id"> <button>Edit Profile</button> </router-link>
     </div>
 
     <div>
@@ -29,20 +28,17 @@
 
     <h3>Interested In</h3>
     <div v-for="interest in interests">
-      <!-- <router-link v-bind:to="'/games/' + game.id"> <p>Post: {{game.title}} </p> </router-link> -->
-      <p> {{interest.status}} {{interest.game_id}} </p>
+      <p> {{interest.status}} <router-link v-bind:to="'/games/' + interest.game_id"> {{interest.game_name}} </router-link> </p>
     </div>
 
     <h3>Followers</h3>
     <div v-for="followee in followers">
-      <!-- <router-link v-bind:to="'/games/' + game.id"> <p>Post: {{game.title}} </p> </router-link> -->
-      <router-link v-bind:to="'/users/' + followee.friender_id"> <p> {{followee.friender_id}} </p> </router-link>
+      <router-link v-bind:to="'/users/' + followee.friender_id"> <p> {{followee.friender_first_name}} {{followee.friender_last_name}} </p> </router-link>
     </div>
 
     <h3>Following</h3>
     <div v-for="follower in following">
-      <!-- <router-link v-bind:to="'/games/' + game.id"> <p>Post: {{game.title}} </p> </router-link> -->
-      <router-link v-bind:to="'/users/' + follower.friendee_id"> <p> {{follower.friendee_id}} </p> </router-link>
+      <router-link v-bind:to="'/users/' + follower.friendee_id"> <p> {{follower.friendee_first_name}} {{follower.friendee_last_name}} </p> </router-link>
     </div>
 
     <h3>Comments</h3>
@@ -82,10 +78,7 @@
     },
     created: function() {
       axios.get('/api/users/' + this.$route.params.id).then(response => {
-        console.log(response.data);
         this.user = response.data;
-        console.log(this.user);
-
       });
 
       axios.get('/api/games?organizer_id=' + this.$route.params.id).then(response => {
@@ -110,6 +103,7 @@
         console.log(this.following);
       });
     },
+
     methods: {
       follow: function(friendee_id) {
         var params = {
@@ -119,15 +113,40 @@
 
         axios.post('/api/friendships', params).then(response => {
           this.followers.push(response.data)
-          console.log(this.followers);
-          console.log(response.data);
-          console.log(response.data.errors);
         })
         .catch(error => {
           this.errors = error.response.data.errors;
           console.log(this.errors);
         });
       }
+    },
+
+    beforeRouteUpdate (to, from, next) {
+      axios.get('/api/users/' + to.params.id).then(response => {
+        this.user = response.data;
+      });
+      
+      axios.get('/api/games?organizer_id=' + to.params.id).then(response => {
+        this.games = response.data;
+      });
+      
+      axios.get('/api/interests?user_id=' + to.params.id).then(response => {
+        this.interests = response.data;
+      });
+      
+      axios.get('/api/comments?user_id=' + to.params.id).then(response => {
+        this.comments = response.data;
+      });
+      
+      axios.get('/api/friendships?friendee_id=' + to.params.id).then(response => {
+        this.followers = response.data;
+      });
+
+      axios.get('/api/friendships?friender_id=' + to.params.id).then(response => {
+        this.following = response.data;
+      });
+
+      next();
     }
   };
 </script>

@@ -31,7 +31,7 @@ export default new Router({
     { path: '/games/create', name: 'games-create', component: GamesCreate },
     { path: '/games/:id', name: 'games-show', component: GamesShow },
 
-    { path: '/users/edit', name: 'users-edit', component: UsersEdit },
+    { path: '/users/edit/:id', name: 'users-edit', component: UsersEdit },
     { path: '/users/:id', name: 'users-show', component: UsersShow },
 
     { path: '/signup', name: 'signup', component: SignUp },

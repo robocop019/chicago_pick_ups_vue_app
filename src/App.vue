@@ -5,7 +5,6 @@
       <router-link to="/games">Games</router-link> |
       <router-link to="/games/create">Create Game</router-link> |
       <router-link to="/parks">Parks</router-link> |
-      <router-link v-bind:to="'/users/' + this.user_id">Profile</router-link> |
       <router-link to="/signup">Sign Up</router-link> |
       <router-link to="/login">Login</router-link> | 
       <router-link to="/logout">Logout</router-link>
@@ -39,18 +38,3 @@
   display: inline-block;
 }
 </style>
-
-<script>
-  export default {
-    data: function() {
-      return {
-        jwt: '',
-        user_id: ''
-      };
-    },
-    created: function() {
-      this.jwt = localStorage.getItem("jwt");
-      this.user_id = localStorage.getItem("user_id");
-    }
-  };
-</script>
