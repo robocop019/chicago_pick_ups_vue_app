@@ -7,8 +7,12 @@
     <div>
       <button>Edit Profile</button>
     </div>
+
     <div>
       <button v-on:click="follow(user.id)">Follow</button>
+      <ul>
+        <li v-for="error in errors">{{ error }}</li>
+      </ul>
     </div>
 
     <div>
@@ -72,7 +76,8 @@
         interests: [],
         comments: [],
         followers: [],
-        following: []
+        following: [],
+        errors: []
       };
     },
     created: function() {
@@ -115,6 +120,12 @@
         axios.post('/api/friendships', params).then(response => {
           this.followers.push(response.data)
           console.log(this.followers);
+          console.log(response.data);
+          console.log(response.data.errors);
+        })
+        .catch(error => {
+          this.errors = error.response.data.errors;
+          console.log(this.errors);
         });
       }
     }

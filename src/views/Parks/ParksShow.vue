@@ -8,10 +8,21 @@
       <p> {{facility}} </p>
     </div>
 
-    <h3>Comments</h3>
-    <div v-for="comment in park.comments">
-      <p> Comment: {{comment.content}} </p>
-      <p> Rating: {{comment.rating}} </p>
+    <h2>Comments</h2>
+    <div>
+      <form v-on:submit.prevent="submit()">
+        <input type="text" placeholder="Add Comment" v-model="newComment">
+        <br>
+        <br>
+        <input type="number" min="0" max="5" v-model="newRating">
+        <br>
+        <br>
+        <input type="submit" value="Post Comment">
+      </form>
+    </div>
+
+    <div v-for="comment in comments">
+      <p> Comment: {{comment.content}} <span v-if="comment.rating !== null"> Rating: {{comment.rating}} </span> </p>
     </div>
 
     <h3>Games</h3>
@@ -32,22 +43,27 @@
     data: function() {
       return {
         park: [],
-        facilities: []
+        facilities: [],
+        comments: [],
+        newComment: '',
+        newRating: null
       };
     },
     created: function() {
       axios.get('/api/parks/' + this.$route.params.id).then(response => {
         this.park = response.data;
 
-        axios.get('https://data.cityofchicago.org/resource/eix4-gf83.json?park_no=' + this.park.api_ref).then(response => {
+        axios.get('https://data.cityofchicago.org/resource/eix4-gf83.json?park_no=' + this.park.api_ref)
+          .then(response => {
 
             console.log(response.data);
-            
+
             var new_fac = [];
 
             response.data.forEach(function(facility) {
 
-              if (!(new_fac.includes(facility.facility_t + ' ' + facility.facility_n))) {
+              if (!(new_fac.includes(facility.facility_t + ' ' + facility.facility_n)) &&
+                  !(new_fac.includes(facility.facility_n))) {
               
                 if (facility.facility_t === 'SPECIAL') {
                   new_fac.push(facility.facility_n);
@@ -64,7 +80,35 @@
         });
 
       });
+
+      axios.get('/api/comments?commentable_type=Park&commentable_id=' + this.$route.params.id)
+        .then(response => {
+          this.comments = response.data;
+      });
     },
-    methods: {}
+    methods: {
+      submit: function() {
+
+        var params = {
+                    user_id: localStorage.getItem('user_id'),
+                    commentable_id: this.park.id,
+                    commentable_type: 'Park',
+                    content: this.newComment,
+                    rating: this.newRating
+        };
+
+        axios.post('/api/comments', params)
+          .then(response => {
+            console.log(response.data);
+            this.newComment = '';
+            this.newRating = null;
+
+            axios.get('/api/comments?commentable_type=Park&commentable_id=' + this.$route.params.id)
+              .then(response => {
+                this.comments = response.data;
+              });
+        });
+      }
+    }
   };
 </script>

@@ -4,10 +4,10 @@
 
     <div>
       <button v-on:click="interestedIn(1)">Attending</button>
-    </div>
-
-    <div>
       <button v-on:click="interestedIn(0)">Interested In</button>
+      <ul>
+        <li v-for="error in errors">{{ error }}</li>
+      </ul>
     </div>
 
     <h4> {{game.start_time}} </h4>
@@ -23,7 +23,16 @@
     </div>
 
     <h2>Comments</h2>
-    <div v-for="comment in game.comments">
+    <div>
+      <form v-on:submit.prevent="submit()">
+        <input type="text" placeholder="Add Comment" v-model="newComment">
+        <br>
+        <br>
+        <input type="submit" value="Post Comment">
+      </form>
+    </div>
+
+    <div v-for="comment in comments">
       <p> Comment: {{comment.content}} </p>
     </div>
 
@@ -40,17 +49,31 @@
     data: function() {
       return {
         game: [],
-        interests: []
-      };
+        interests: [],
+        comments: [],
+        errors: [],
+        newComment: ''
+      }
     },
-    created: function() {
-      axios.get('/api/games/' + this.$route.params.id).then(response => {
-        this.game = response.data;
-      });
 
-      axios.get('/api/interests?game_id=' + this.$route.params.id).then(response => {
-        this.interests = response.data;
-      });
+    created: function() {
+
+      axios.get('/api/games/' + this.$route.params.id)
+        .then(response => {
+          this.game = response.data;
+        });
+
+      axios.get('/api/interests?game_id=' + this.$route.params.id)
+        .then(response => {
+          this.interests = response.data;
+        });
+
+      axios.get('/api/comments?commentable_type=Game&commentable_id=' + this.$route.params.id)
+        .then(response => {
+          this.comments = response.data;
+        });
+
+
     },
     methods: {
       interestedIn: function(status) {
@@ -62,10 +85,34 @@
 
         axios.post('/api/interests', params).then(response => {
           console.log(response.data);
+
+          // axios.get('/api/interests?game_id=' + this.$route.params.id).then(response => {
+          //   this.interests = response.data;
+          // });
+        }).catch(error => {
+          this.errors = error.response.data.errors;
+          console.log(this.errors);
         });
 
-        axios.get('/api/interests?game_id=' + this.$route.params.id).then(response => {
-          this.interests = response.data;
+        
+      },
+      submit: function() {
+        var params = {
+                    user_id: localStorage.getItem('user_id'),
+                    commentable_id: this.game.id,
+                    commentable_type: 'Game',
+                    content: this.newComment
+        };
+
+        axios.post('/api/comments', params)
+          .then(response => {
+            console.log(response.data);
+            this.newComment = '';
+
+            axios.get('/api/comments?commentable_type=Game&commentable_id=' + this.$route.params.id)
+              .then(response => {
+                this.comments = response.data;
+              });
         });
       }
     }

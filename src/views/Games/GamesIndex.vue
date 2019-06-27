@@ -67,6 +67,7 @@
         if (this.category) {
           axios.get('/api/games?category=' + this.category).then(response => {
             console.log(response.data);
+            this.games = response.data;
           });
         }
       }
