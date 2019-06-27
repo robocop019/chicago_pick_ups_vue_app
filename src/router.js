@@ -10,6 +10,8 @@ import GamesShow from './views/Games/GamesShow.vue'
 import UsersEdit from './views/Users/UsersEdit.vue'
 import UsersShow from './views/Users/UsersShow.vue'
 
+import Message from './views/Users/Message.vue'
+
 import SignUp from './views/Users/SignUp.vue'
 import Login from './views/Users/Login.vue'
 import Logout from './views/Users/Logout.vue'
@@ -33,6 +35,8 @@ export default new Router({
 
     { path: '/users/edit/:id', name: 'users-edit', component: UsersEdit },
     { path: '/users/:id', name: 'users-show', component: UsersShow },
+
+    { path: '/message/:id', name: 'message', component: Message },
 
     { path: '/signup', name: 'signup', component: SignUp },
     { path: '/login', name: 'login', component: Login },

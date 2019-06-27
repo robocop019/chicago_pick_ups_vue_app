@@ -13,9 +13,9 @@
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </div>
-
-    <div>
-      <button>Message</button>
+    
+    <div v-if="current_user !== user.id">
+      <router-link v-bind:to="'/message/' + user.id"> <button>Message</button> </router-link>
     </div>
 
     <p>Location: {{user.location}} </p>
@@ -59,6 +59,10 @@
     max-height: 350px;
     max-width: 350px;
   }
+
+  li {
+    list-style-type: none;
+  }
 </style>
 
 <script>
@@ -73,7 +77,8 @@
         comments: [],
         followers: [],
         following: [],
-        errors: []
+        errors: [],
+        current_user: localStorage.getItem("user_id")
       };
     },
     created: function() {
