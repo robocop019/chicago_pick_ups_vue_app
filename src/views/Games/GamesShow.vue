@@ -2,9 +2,15 @@
   <div class="games-show">
     <h2> {{game.title}} </h2>
 
-    <div>
-      <button v-on:click="interestedIn(1)">Attending</button>
-      <button v-on:click="interestedIn(0)">Interested In</button>
+    <div v-if="current_user != null">
+      <div>
+        <button v-on:click="interestedIn(1)">Attending</button>
+      </div>
+
+      <div>
+        <button v-on:click="interestedIn(0)">Interested In</button>
+      </div>
+
       <ul>
         <li v-for="error in errors">{{ error }}</li>
       </ul>
@@ -65,6 +71,7 @@
   export default {
     data: function() {
       return {
+        current_user: localStorage.getItem("user_id"),
         game: [],
         interests: [],
         comments: [],
