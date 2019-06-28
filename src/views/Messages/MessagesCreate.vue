@@ -50,7 +50,7 @@
         axios.post('api/messages', params)
           .then(response => {
             console.log("Message Sent!");
-            this.$router.push('/users/' + this.sender);
+            this.$router.push('/messages/view/' + this.sender);
           });
       }
     }

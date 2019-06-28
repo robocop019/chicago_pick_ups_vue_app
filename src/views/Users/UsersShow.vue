@@ -3,19 +3,25 @@
     <img v-bind:src="user.avatar_url" v-bind:alt="user.first_name">
     <h1> {{user.first_name}} {{user.last_name}} </h1>
 
-    <div>
+    <div v-if="current_user == user.id">
       <router-link v-bind:to="'/users/edit/' + user.id"> <button>Edit Profile</button> </router-link>
     </div>
 
-    <div>
+    <div v-if="current_user != user.id">
       <button v-on:click="follow(user.id)">Follow</button>
       <ul>
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </div>
     
-    <div v-if="current_user !== user.id">
-      <router-link v-bind:to="'/messages/' + user.id"> <button>Message</button> </router-link>
+    <div>
+      <router-link v-if="current_user == user.id" v-bind:to="'/messages/view/' + user.id">
+        <button>Messages</button> 
+      </router-link>
+
+      <router-link v-else-if="current_user != user.id" v-bind:to="'/messages/' + user.id">
+        <button>Message User</button> 
+      </router-link>
     </div>
 
     <p>Location: {{user.location}} </p>

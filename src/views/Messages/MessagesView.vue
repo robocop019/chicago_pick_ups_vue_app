@@ -3,14 +3,26 @@
     <div>
       <h2>Recieved</h2>  
       <div v-for="recieve in recieved">
-        <p> {{recieve.content}} </p>
+        <h4>From: 
+          <router-link v-bind:to="'/users/' + recieve.sender_id"> 
+            {{recieve.sender_first_name}} {{recieve.sender_last_name}}
+          </router-link>
+          at {{recieve.time}}
+        </h4>
+        <p>Message: {{recieve.content}} </p>
       </div>
     </div>
 
     <div>
       <h2>Sent</h2>
       <div v-for="send in sent">
-        <p> {{send.content}} </p>
+        <h4>To: 
+          <router-link v-bind:to="'/users/' + send.recipient_id">
+            {{send.recipient_first_name}} {{send.recipient_last_name}}
+          </router-link> 
+           at {{send.time}}
+        </h4>
+        <p>Message: {{send.content}} </p>
       </div>
     </div>
   </div>
