@@ -1,5 +1,5 @@
 <template>
-  <div class="message">
+  <div class="messages-create">
     <form v-on:submit.prevent="submit()">
       <h3>Compose a Message</h3>
       <p> To: {{user.first_name}} {{user.last_name}} </p>
@@ -26,13 +26,18 @@
       };
     },
     created: function() {
-      axios.get('api/users/' + this.$route.params.id)
-        .then(response => {
-          console.log(response.data);
-          this.user = response.data;
-          console.log(this.user);
 
-        });
+      if (!(localStorage.getItem("user_id"))) {
+        this.$router.push('/login');
+      } else {
+        axios.get('api/users/' + this.$route.params.id)
+          .then(response => {
+            console.log(response.data);
+            this.user = response.data;
+            console.log(this.user);
+
+          });
+      }
     },
     methods: {
       submit: function() {

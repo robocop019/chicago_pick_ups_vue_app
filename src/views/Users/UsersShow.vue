@@ -15,7 +15,7 @@
     </div>
     
     <div v-if="current_user !== user.id">
-      <router-link v-bind:to="'/message/' + user.id"> <button>Message</button> </router-link>
+      <router-link v-bind:to="'/messages/' + user.id"> <button>Message</button> </router-link>
     </div>
 
     <p>Location: {{user.location}} </p>
