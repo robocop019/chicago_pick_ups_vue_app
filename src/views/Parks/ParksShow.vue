@@ -22,7 +22,14 @@
     </div>
 
     <div v-for="comment in comments">
-      <p> Comment: {{comment.content}} <span v-if="comment.rating !== null"> Rating: {{comment.rating}} </span> </p>
+      <p> 
+        Comment: {{comment.content}} by 
+        <router-link v-bind:to="'/users/' + comment.user_id">
+          {{comment.user_first_name}} {{comment.user_last_name}} 
+        </router-link>
+        at {{comment.created_at}} 
+      </p>
+      <p v-if="comment.rating !== null"> Rating: {{comment.rating}} </p>
     </div>
 
     <h3>Games</h3>

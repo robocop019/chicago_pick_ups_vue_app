@@ -34,7 +34,17 @@
 
     <h3>Interested In</h3>
     <div v-for="interest in interests">
-      <p> {{interest.status}} <router-link v-bind:to="'/games/' + interest.game_id"> {{interest.game_name}} </router-link> </p>
+      <p> 
+        <span v-if="interest.status === 'following'">
+          Interested in 
+        </span>
+        <span v-else-if="interest.status === 'going_to'">
+          Going to
+        </span> 
+        <router-link v-bind:to="'/games/' + interest.game_id"> 
+          {{interest.game_name}} 
+        </router-link> 
+      </p>
     </div>
 
     <h3>Followers</h3>

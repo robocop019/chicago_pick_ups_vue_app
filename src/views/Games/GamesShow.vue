@@ -19,7 +19,18 @@
 
     <h2>Interested In</h2>
     <div v-for="interest in interests">
-      <p> <router-link v-bind:to="'/users/' + interest.user_id"> {{interest.first_name}} {{interest.last_name}} </router-link> is {{interest.status}} </p>
+      <p> 
+        <router-link v-bind:to="'/users/' + interest.user_id"> 
+          {{interest.first_name}} {{interest.last_name}} 
+        </router-link> 
+        is 
+        <span v-if="interest.status === 'following'">
+          interested in this game.
+        </span>
+        <span v-else-if="interest.status === 'going_to'">
+          attending this game!
+        </span> 
+      </p>
     </div>
 
     <h2>Comments</h2>
@@ -33,7 +44,13 @@
     </div>
 
     <div v-for="comment in comments">
-      <p> Comment: {{comment.content}} </p>
+      <p> 
+        Comment: {{comment.content}} by 
+        <router-link v-bind:to="'/users/' + comment.user_id">
+          {{comment.user_first_name}} {{comment.user_last_name}} 
+        </router-link>
+        at {{comment.created_at}} 
+      </p>
     </div>
 
   </div>
@@ -83,18 +100,20 @@
                       status: status
         };
 
-        axios.post('/api/interests', params).then(response => {
-          console.log(response.data);
+        axios.post('/api/interests', params)
+          .then(response => {
+            console.log(response.data);
+            this.interests.push(response.data);
+          }).catch(error => {
+            this.errors = error.response.data.errors;
+            console.log(this.errors);
+          });
 
-          // axios.get('/api/interests?game_id=' + this.$route.params.id).then(response => {
-          //   this.interests = response.data;
-          // });
-        }).catch(error => {
-          this.errors = error.response.data.errors;
-          console.log(this.errors);
-        });
-
-        
+        // axios.get('/api/interests?game_id=' + this.$route.params.id)
+        //   .then(response => {
+        //     this.interests = response.data;
+        //     console.log(this.interests);
+        //   });      
       },
       submit: function() {
         var params = {
