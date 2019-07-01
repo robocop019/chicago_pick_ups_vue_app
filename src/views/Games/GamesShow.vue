@@ -51,11 +51,14 @@
 
     <div v-for="comment in comments">
       <p> 
-        Comment: {{comment.content}} by 
+        Comment: "{{comment.content}}" by 
         <router-link v-bind:to="'/users/' + comment.user_id">
           {{comment.user_first_name}} {{comment.user_last_name}} 
         </router-link>
-        at {{comment.created_at}} 
+        at {{comment.created_at}}
+        <span v-if="comment.user_id == current_user">
+          <button v-on:click="deleteComment(comment.id)">Delete Message</button> 
+        </span> 
       </p>
     </div>
 
@@ -140,6 +143,17 @@
                 this.comments = response.data;
               });
         });
+      },
+      deleteComment: function(commentId) {
+        axios.delete('/api/comments/' + commentId)
+          .then(response => {
+            console.log(response.data);
+
+            axios.get('/api/comments?commentable_type=Game&commentable_id=' + this.$route.params.id)
+              .then(response => {
+              this.comments = response.data;
+            });
+          });
       }
     }
   };

@@ -1,16 +1,17 @@
 <template>
   <div class="messages-view">
     <div>
-      <h2>Recieved</h2>  
-      <div v-for="recieve in recieved">
-        <h4>From: 
-          <router-link v-bind:to="'/users/' + recieve.sender_id"> 
-            {{recieve.sender_first_name}} {{recieve.sender_last_name}}
-          </router-link>
-          at {{recieve.time}}
-        </h4>
-        <p>Message: {{recieve.content}} </p>
-      </div>
+      <h2>Recieved</h2> 
+        <div v-for="recieve in recieved">
+          <h4>From: 
+            <router-link v-bind:to="'/users/' + recieve.sender_id"> 
+              {{recieve.sender_first_name}} {{recieve.sender_last_name}}
+            </router-link>
+            at {{recieve.time}}
+          </h4>
+          <p>Message: {{recieve.content}} </p>
+          <button v-on:click="deleteMessage(recieve.id)">Delete Message</button> 
+        </div>
     </div>
 
     <div>
@@ -57,6 +58,18 @@
           console.log(this.sent);
         });
     },
-    methods: {}
+    methods: {
+      deleteMessage: function(messageId) {
+        axios.delete('/api/messages/' + messageId)
+          .then(response => {
+            console.log(response.data);
+
+            axios.get('/api/messages?recipient_id=' + this.$route.params.id)
+              .then(response => {
+                this.recieved = response.data;
+              });
+          });
+      }
+    }
   };
 </script>

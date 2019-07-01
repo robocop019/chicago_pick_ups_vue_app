@@ -14,7 +14,14 @@
         Comment: <input type="text" placeholder="Add Comment" v-model="newComment">
         <br>
         <br>
-        Rating(Max of 5): <input type="number" min="0" max="5" v-model="newRating">
+        <select name="rating" v-model="newRating">
+          <option value=""></option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
         <br>
         <br>
         <input type="submit" value="Post Comment">
@@ -22,8 +29,8 @@
     </div>
 
     <div v-for="comment in comments">
-      <p> 
-        Comment: {{comment.content}} by 
+      <p v-if="comment.content !== ''"> 
+        Comment: "{{comment.content}}" by 
         <router-link v-bind:to="'/users/' + comment.user_id">
           {{comment.user_first_name}} {{comment.user_last_name}} 
         </router-link>
