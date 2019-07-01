@@ -9,7 +9,7 @@
     </div>
 
     <h2>Comments</h2>
-    <div>
+    <div v-if="current_user != null">
       <form v-on:submit.prevent="submit()">
         Comment: <input type="text" placeholder="Add Comment" v-model="newComment">
         <br>
@@ -56,6 +56,7 @@
   export default {
     data: function() {
       return {
+        current_user: localStorage.getItem("user_id"),
         park: [],
         facilities: [],
         comments: [],

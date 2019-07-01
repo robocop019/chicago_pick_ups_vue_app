@@ -60,11 +60,11 @@
     <h3>Comments</h3>
     <div v-for="comment in comments">
       <router-link v-if="comment.commentable_type === 'Game'" v-bind:to="'/games/' + comment.commentable_id"> 
-        <p>Comment: {{comment.content}} </p> 
+        <p v-if="comment.content != ''">Comment: {{comment.content}} </p> 
       </router-link>
 
       <router-link v-if="comment.commentable_type === 'Park'" v-bind:to="'/parks/' + comment.commentable_id"> 
-        <p>Comment: {{comment.content}} </p> 
+        <p v-if="comment.content != ''">Comment: {{comment.content}} </p> 
       </router-link>
     </div>
   </div>

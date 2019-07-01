@@ -42,6 +42,7 @@
             <option value=""></option>
             <option value="casual">Casual</option>
             <option value="competitive">Competitive</option>
+            <option value="practice">Practice</option>
           </select>
           <br>
 
@@ -53,8 +54,8 @@
           <input type="text" v-model="maxParticipants">
           <br>
 
-          <label>Maximum Age:</label>
-          <input type="text" v-model="maxAge">
+          <!-- <label>Maximum Age:</label>
+          <input type="text" v-model="maxAge"> -->
         </div>
         
         <input type="submit" class="button" value="Submit">
