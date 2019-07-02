@@ -42,9 +42,9 @@
       </nav>
     </div>
 
-    <div class="container pt90 pb50">
+    <!-- <div class="container pt90 pb50"> -->
       <router-view/>
-    </div>
+    <!-- </div> -->
 
 
     <footer class="footer footer-dark pt100 pb30">

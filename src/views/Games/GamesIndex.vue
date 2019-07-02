@@ -22,12 +22,12 @@
         </form>
       </div>
       <div v-for="game in games">
-        <router-link v-bind:to="'/games/' + game.id"> <h3> {{game.title}} </h3> </router-link>
+        <!-- <router-link v-bind:to="'/games/' + game.id"> <h3> {{game.title}} </h3> </router-link>
         <router-link v-bind:to="'/parks/' + game.park.id"> <p>Location: {{game.park.name}} </p> </router-link>
         <p>Start Time: {{game.start_time}} </p>
         <p>Sport: {{game.sport}} </p>
         <p>Description: {{game.description}} </p>
-        <p>Category: {{game.category}} </p>
+        <p>Category: {{game.category}} </p> -->
 
 
 
@@ -41,9 +41,7 @@
                 </div>
                 <div class="col-sm-7">
                     <div class="listing-content-alt">
-                        <h3>
-                          <router-link v-bind:to="'/games/' + game.id"> <h3> {{game.title}} </h3> </router-link>
-                        </h3>
+                        <h2>{{game.title}}</h2>
                         <span class="listing-location">
                           <router-link v-bind:to="'/parks/' + game.park.id"> <p>Location: {{game.park.name}} </p> </router-link>
                         </span>
@@ -57,12 +55,18 @@
                             <span>Sport</span>
                             {{game.sport}}
                         </li>
+
                         <li class="list-inline-item" v-if="game.min_participants != null">
                             <span>Minimum Participants</span>
                             {{game.min_participants}}
                         </li>
+
+                        <li class="list-inline-item" v-if="game.max_participants != null">
+                            <span>Maximum Participants</span>
+                            {{game.max_participants}}
+                        </li>
                     </ul>
-                        <ul class="clearfix list-inline listing-row-inline mb0">
+                        <!-- <ul class="clearfix list-inline listing-row-inline mb0">
                             <li class="list-inline-item">
                                 <a href="#"><i class="ti-user"></i> Emily Doe</a>
                             </li>
@@ -75,13 +79,12 @@
                             <li class="list-inline-item">
                                 <a href="#"><i class="ti-heart"></i> Add to wishlist</a>
                             </li>
-                        </ul>
+                        </ul> -->
                         <hr>
                         <div class="property-listing-footer clearfix">
                             <div class="float-right">
-                                <a href="#" class="btn btn-primary">View Detail</a>
+                                <router-link v-bind:to="'/games/' + game.id" class="btn btn-primary">View Details</router-link>
                             </div>
-                            <h4 class="font400">$29,999.00</h4>
                         </div>
                     </div>
                 </div>
