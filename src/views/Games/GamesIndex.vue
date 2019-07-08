@@ -1,98 +1,93 @@
 <template>
   <div class="games-index">
-      <div class="filter">
-        <h3>Filters</h3>
-        <form v-on:submit.prevent="submit()">
-          <input type="checkbox" name="Baseball" v-model="sports" value=0>Baseball
-          <input type="checkbox" name="basketball" v-model="sports" value=1>Basketball
-          <input type="checkbox" name="football" v-model="sports" value=2>Football
-          <input type="checkbox" name="hockey" v-model="sports" value=3>Hockey
-          <input type="checkbox" name="soccer" v-model="sports" value=4>Soccer
-          <input type="checkbox" name="softball" v-model="sports" value=5>Softball
-          <input type="checkbox" name="tennis" v-model="sports" value=6>Tennis
-          <input type="checkbox" name="volleyball" v-model="sports" value=7>Volleyball
-          <br>
-          <br>
-          <input type="radio" name="casual" v-model="category" value=0>Casual
-          <input type="radio" name="competitive" v-model="category" value=1>Competitive
-          <input type="radio" name="practice" v-model="category" value=2>Practice
-          <br>
-          <br>
-          <input type="submit" class="button" value="Submit">
-        </form>
-      </div>
-      <div v-for="game in games">
-        <!-- <router-link v-bind:to="'/games/' + game.id"> <h3> {{game.title}} </h3> </router-link>
-        <router-link v-bind:to="'/parks/' + game.park.id"> <p>Location: {{game.park.name}} </p> </router-link>
-        <p>Start Time: {{game.start_time}} </p>
-        <p>Sport: {{game.sport}} </p>
-        <p>Description: {{game.description}} </p>
-        <p>Category: {{game.category}} </p> -->
+    <div class="filter text-center">
+      <h3>Filters</h3>
+      <form v-on:submit.prevent="submit()">
+        <input type="checkbox" name="Baseball" v-model="sports" value=0>Baseball
+        <input type="checkbox" name="basketball" v-model="sports" value=1>Basketball
+        <input type="checkbox" name="football" v-model="sports" value=2>Football
+        <input type="checkbox" name="hockey" v-model="sports" value=3>Hockey
+        <input type="checkbox" name="soccer" v-model="sports" value=4>Soccer
+        <input type="checkbox" name="softball" v-model="sports" value=5>Softball
+        <input type="checkbox" name="tennis" v-model="sports" value=6>Tennis
+        <input type="checkbox" name="volleyball" v-model="sports" value=7>Volleyball
+        <br>
+        <br>
+        <input type="radio" name="casual" v-model="category" value=0>Casual
+        <input type="radio" name="competitive" v-model="category" value=1>Competitive
+        <input type="radio" name="practice" v-model="category" value=2>Practice
+        <br>
+        <br>
+        <input type="submit" class="button" value="Submit">
+      </form>
+    </div> <!-- filter div -->
+
+    <div v-for="game in games">
+      <!-- <router-link v-bind:to="'/games/' + game.id"> <h3> {{game.title}} </h3> </router-link>
+      <router-link v-bind:to="'/parks/' + game.park.id"> <p>Location: {{game.park.name}} </p> </router-link>
+      <p>Start Time: {{game.start_time}} </p>
+      <p>Sport: {{game.sport}} </p>
+      <p>Description: {{game.description}} </p>
+      <p>Category: {{game.category}} </p> -->
 
 
 
-        <div class="property-listing-row">
-            <div class="row align-items-center">
-                <div class="col-sm-5">
-                    <a class="listing-thumb" href="#">
-                        <img src="images/prop1.jpg" alt="" class="img-fluid">
-                        <span class="listing-label sale">{{game.category}}</span>
-                    </a>
+      <div class="property-listing-row">
+        <div class="row align-items-center">
+          <div class="col-sm-5">
+
+            <router-link class="listing-thumb" v-bind:to="'/games/' + game.id">
+              <img src="images/prop1.jpg" alt="" class="img-fluid">
+              <span class="listing-label sale">{{game.category}}</span>
+            </router-link>
+          </div>
+
+          <div class="col-sm-7">
+            <div class="listing-content-alt">
+              <h2>{{game.title}}</h2>
+              <span class="listing-location">
+                <router-link v-bind:to="'/parks/' + game.park.id"> <p>Location: {{game.park.name}} </p> </router-link>
+              </span>
+
+              <ul class="listing-meta list-inline clearfix">
+                <li class="list-inline-item">
+                  <span>Start Time</span>
+                  {{game.start_time}}
+                </li>
+               
+                <li class="list-inline-item">
+                  <span>Sport</span>
+                  {{game.sport}}
+                </li>
+
+                <li class="list-inline-item" v-if="game.min_participants != null">
+                  <span>Minimum Participants</span>
+                  {{game.min_participants}}
+                </li>
+
+                <li class="list-inline-item" v-if="game.max_participants != null">
+                  <span>Maximum Participants</span>
+                  {{game.max_participants}}
+                </li>
+              </ul>
+
+              <hr>
+              <div class="property-listing-footer clearfix">
+                <div class="float-right">
+                  <router-link v-bind:to="'/games/' + game.id" class="btn btn-primary">
+                    View Details
+                  </router-link>
                 </div>
-                <div class="col-sm-7">
-                    <div class="listing-content-alt">
-                        <h2>{{game.title}}</h2>
-                        <span class="listing-location">
-                          <router-link v-bind:to="'/parks/' + game.park.id"> <p>Location: {{game.park.name}} </p> </router-link>
-                        </span>
-                   <ul class="listing-meta list-inline clearfix">
-                        <li class="list-inline-item">
-                            <span>Start Time</span>
-                            {{game.start_time}}
-                        </li>
-                       
-                        <li class="list-inline-item">
-                            <span>Sport</span>
-                            {{game.sport}}
-                        </li>
+              </div> <!-- .property-listing-footer clearfix div -->
 
-                        <li class="list-inline-item" v-if="game.min_participants != null">
-                            <span>Minimum Participants</span>
-                            {{game.min_participants}}
-                        </li>
+            </div> <!-- .listing-content-alt div -->
+          </div> <!-- .col-sm-7 div -->
 
-                        <li class="list-inline-item" v-if="game.max_participants != null">
-                            <span>Maximum Participants</span>
-                            {{game.max_participants}}
-                        </li>
-                    </ul>
-                        <!-- <ul class="clearfix list-inline listing-row-inline mb0">
-                            <li class="list-inline-item">
-                                <a href="#"><i class="ti-user"></i> Emily Doe</a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="ti-location-pin"></i> London</a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="ti-sharethis"></i> Share</a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#"><i class="ti-heart"></i> Add to wishlist</a>
-                            </li>
-                        </ul> -->
-                        <hr>
-                        <div class="property-listing-footer clearfix">
-                            <div class="float-right">
-                                <router-link v-bind:to="'/games/' + game.id" class="btn btn-primary">View Details</router-link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!--/listing row-->
+        </div> <!-- .row align-items-center div -->
+      </div> <!--/listing row-->
+    </div> <!-- v-for games div -->
 
-      </div>
-  </div>
+  </div> <!-- games-index div -->
 </template>
 
 <style>
