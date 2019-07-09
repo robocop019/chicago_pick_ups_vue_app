@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <div class="container pt90 pb50">
+
     <h3 class="left-title">Games</h3>
     <div v-for="game in games">
       <router-link v-bind:to="'/games/' + game.id"> <h3> {{game.title}} </h3> </router-link>
@@ -8,6 +10,7 @@
       <p> {{game.description}} </p>
       <p> {{game.category}} </p>
     </div>
+  </div>
   </div>
 </template>
 
